@@ -143,7 +143,7 @@ function buildCharts(sample) {
    
    // Create the layout for the bar chart. 
    var barLayout = {
-    title: {text: "<b>Temperature Change with Respect to a Baseline Climatology</b><br>Country:  " +  Object.values(firstSample).pop(), 
+    title: {text: "<b>ANNUAL SEA LEVEL CHANGE</b><br>Body of Water:  " +  Object.values(firstSample).pop(), 
     font: {color: "blue", size: 30, family: "Arial"}}, showlegend: false, xaxis:{title:"Years"},  yaxis:{title: 'Baseline Climatology corresponding <br> to the period 1951-1980'}
   };
    // Use Plotly to plot the data with the layout. 
@@ -199,7 +199,7 @@ function buildCharts(sample) {
 
  // Create the layout for the linear regression chart.
  var linearLayout = {
-    title: {text: "<b>FORECASTED Temperature Change with Respect to a Baseline Climatology</b><br>Country:  " +  Object.values(firstSample).pop(), 
+    title: {text: "<b>FORECASTED Annual Sea Level Change</b><br>Body of Water:  " +  Object.values(firstSample).pop(), 
     font: {color: "green", size: 30, family: "Arial"}}, showlegend: false, xaxis:{title:"Years"},  yaxis:{title: 'Baseline Climatology corresponding <br> to the period 1951-1980'}
   };
  var scatterData = {
