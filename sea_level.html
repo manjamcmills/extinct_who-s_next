@@ -49,18 +49,32 @@
             <img src="sealevel.jpg" width="30" class="img-fluid" alt="">
             <b>Sea Level Data</b></a>
             </div>
+            <div class="row">
+              <div class="col-md-9">
+                <div id="sea_level"></div>
+            </div>
+          
+            <div class="col-md-3">
+              <a href="https://education.nationalgeographic.org/resource/sea-level-rise" style = "font-size: 28px; color:purple" target = "_blank" >
+                <b>How does the rise of sea levels affect the world?</b></a><br><p style = "font-size: 25px; color:black" >Sea level rise poses a serious threat to coastal life around the world. Consequences include increased intensity of storm surges, flooding, and damage to coastal areas. In many cases, this is where large population centers are located, in addition to fragile wildlife habitats.</p>
+            </div>
+          </div>           
     <div class="row">
       <div class="col-md-3">
         <div class="well" style="background-color:red;"  >
-          <h4><strong>Select a Country</strong></h4>
+          <h4><strong>Select an Ocean</strong></h4>
           <!-- <select id="selDataset"></select> -->
           <select id="selDataset" class="form-control" style = "font:size: 50" onchange="optionChanged(this.value)"></select>
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading" style="background-color:orange;">
-            <h1 style = "color:black"; class="panel-title"><strong>Country Info</strong></h1>
+            <h1 style = "color:black"; class="panel-title"><strong>Ocean Info</strong></h1>
           </div>
           <div id="sample-metadata" class="panel-body" ></div>
+        </div>
+        <div>
+          <a href="https://climatedata.imf.org/datasets/b84a7e25159b4c65ba62d3f82c605855_0/about" style = "font-size: 25px; color:red" target = "_blank"  >
+            <b>DATA SOURCE </b></a>
         </div>
       </div>
       <div class="col-md-9">
