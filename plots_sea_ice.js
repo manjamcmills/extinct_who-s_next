@@ -92,7 +92,7 @@ function buildMetadata(sample) {
        // Generate values
        var xValues = [];
        var yValues = [];
-       for (var x = 0; x <= 150; x += 1) {
+       for (var x = 0; x <= 70; x += 1) {
            xValues.push(x+1978);
            yValues.push(x * slope + intercept);
        }
@@ -141,15 +141,27 @@ function buildCharts(sample) {
    
    // Create the layout for the bar chart. 
    var barLayout = {
+    legend: { x: 0.1,
+      y: .5,
+      traceorder: 'normal',
+      font: {
+        family: 'sans-serif',
+        size: 12,
+        color: '#000'
+      },
+      bgcolor: '#E2E2E2',
+      bordercolor: '#FFFFFF',
+      borderwidth: 2
+    },
     title: {text: Object.values(firstSample).pop(), 
-    font: {color: "green", size: 30, family: "Arial"}}, showlegend: false, xaxis:{title:"Years"},  yaxis:{title: 'millions of sq km'}
+    font: {color: "green", size: 30, family: "Arial"}},  xaxis:{title:"Years"},  yaxis:{title: 'millions of sq km'}
    };
    // Use Plotly to plot the data with the layout. 
    Plotly.newPlot("bar", [barData], barLayout);
  
    var yearSub = []
        for (var i = 0; i < 61; i++) {
-           yearSub.push(1961);
+           yearSub.push(1978);
        }
         
        var xArray = [];
@@ -179,7 +191,7 @@ function buildCharts(sample) {
        // Generate values
        var xValues = [];
        var yValues = [];
-       for (var x = 0; x < 70; x += 1) {
+       for (var x = 0; x < 50; x += 1) {
            xValues.push(x+1978);
            yValues.push(x * slope + intercept);
        }
@@ -189,6 +201,7 @@ function buildCharts(sample) {
      x: xValues,
      y: yValues,
      text: years,
+     name: "FORECASTED " + Object.values(firstSample).pop(),
      //name: Object.values(firstSample).pop(), 
      line: {color: "red", width: 4},
      type: "line",
@@ -197,8 +210,20 @@ function buildCharts(sample) {
 
  // Create the layout for the linear regression chart.
  var linearLayout = {
-   title: {text: "<b>FORECASTED </b> " +  Object.values(firstSample).pop(), 
-   font: {color: "green", size: 30, family: "Arial"}}, showlegend: false, xaxis:{title:"Years"},  yaxis:{title: 'millions of sq km'}
+  legend: { x: .3,
+    y: 1,
+    traceorder: 'normal',
+    font: {
+      family: 'sans-serif',
+      size: 12,
+      color: '#000'
+    },
+    bgcolor: '#E2E2E2',
+    bordercolor: '#FFFFFF',
+    borderwidth: 2
+  },
+   title: {text: Object.values(firstSample).pop(), 
+   font: {color: "green", size: 30, family: "Arial"}},  xaxis:{title:"Years"},  yaxis:{title: 'millions of sq km'}
  };
  var scatterData = {
    x: xticks,
@@ -210,8 +235,92 @@ function buildCharts(sample) {
    
  };
  //  Use Plotly to plot the data with the layout.
- Plotly.newPlot("linReg", [linearData, scatterData], linearLayout);
+ Plotly.newPlot("bar", [linearData, scatterData], linearLayout);
  
 
  });
 };
+
+//Global Sea Ice Chart
+d3.json("global_sea_ice.json").then((data) => {
+  var years = Object.keys(data.data)
+  
+  var data_values = Object.values(data.data);
+  console.log(Object.values(data.data))
+  var xticks = years;
+
+  var co2Reg = {
+      x: xticks,
+      y: data_values,
+      text: years,
+      name: "Global Sea Ice Area",
+      marker: {color: "teal", opacity: 0.6},
+      type: "bar",
+      
+    };
+ 
+  var CO2Layout = {
+    legend: { x: 0.1,
+      y: .5,
+      traceorder: 'normal',
+      font: {
+        family: 'sans-serif',
+        size: 12,
+        color: '#000'
+      },
+      bgcolor: '#E2E2E2',
+      bordercolor: '#FFFFFF',
+      borderwidth: 2
+    },
+    title: {text: "<b>Is Global Sea Ice Decreasing? </b>", 
+    font: {color: "teal", size: 40, family: "Arial"}}, xaxis:{title:"Years"},  yaxis:{title: "Sea ice area, in millions of sq km"}
+  };
+
+  var yearSub = []
+  for (var i = 0; i < 61; i++) {
+      yearSub.push(1978);
+  }
+   
+  var xArray = [];
+  for(var i = 0; i<years.length; i++)
+      xArray.push(years[i] - yearSub[i]);
+  
+  var yArray = data_values;
+  //console.log(xArray)
+  // Calculate Sums
+  var xSum=0, ySum=0 , xxSum=0, xySum=0;
+  var count = xArray.length;
+  console.log(count);
+  for (var i = 0, len = count; i < count; i++) {
+      xSum += xArray[i];
+      ySum += yArray[i];
+      xxSum += xArray[i] * xArray[i];
+      xySum += xArray[i] * yArray[i];
+  }
+  
+  // Calculate slope and intercept
+  var slope = (count * xySum - xSum * ySum) / (count * xxSum - xSum * xSum);
+  var intercept = (ySum / count) - (slope * xSum) / count;
+  
+  // Generate values
+  var xValues = [];
+  var yValues = [];
+  for (var x = 0; x < 50; x += 1) {
+      xValues.push(x+1978);
+      yValues.push(x * slope + intercept);
+  }
+
+// Create the trace for the linear regression chart.
+var co2Data = {
+x: xValues,
+y: yValues,
+text: years,
+name: "Forecasted Sea Ice Area",
+//name: Object.values(firstSample).pop(), 
+line: {color: "red", width: 4},
+type: "line",
+
+};
+
+Plotly.newPlot("sea_ice", [ co2Reg, co2Data], CO2Layout);
+});
