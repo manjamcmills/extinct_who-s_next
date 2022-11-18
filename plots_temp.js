@@ -69,7 +69,7 @@ function buildMetadata(sample) {
         for(var i = 0; i<years.length; i++)
             xArray.push(years[i] - yearSub[i]);
         
-        console.log(xArray);
+        //console.log(xArray);
         
         var yArray = year_value;
         
@@ -87,8 +87,8 @@ function buildMetadata(sample) {
         // Calculate slope and intercept
         var slope = (count * xySum - xSum * ySum) / (count * xxSum - xSum * xSum);
         var intercept = (ySum / count) - (slope * xSum) / count;
-        console.log(slope);
-        console.log(intercept);
+        //console.log(slope);
+        //console.log(intercept);
         // Generate values
         var xValues = [];
         var yValues = [];
@@ -155,7 +155,7 @@ function buildCharts(sample) {
         for(var i = 0; i<years.length; i++)
             xArray.push(years[i] - yearSub[i]);
         
-        console.log(xArray);
+        //console.log(xArray);
         
         var yArray = year_value;
         
@@ -173,12 +173,12 @@ function buildCharts(sample) {
         // Calculate slope and intercept
         var slope = (count * xySum - xSum * ySum) / (count * xxSum - xSum * xSum);
         var intercept = (ySum / count) - (slope * xSum) / count;
-        console.log(slope);
-        console.log(intercept);
+        //console.log(slope);
+       // console.log(intercept);
         // Generate values
         var xValues = [];
         var yValues = [];
-        for (var x = 0; x < 90; x += 1) {
+        for (var x = 0; x < 70; x += 1) {
             xValues.push(x+1961);
             yValues.push(x * slope + intercept);
         }
@@ -188,6 +188,7 @@ function buildCharts(sample) {
       x: xValues,
       y: yValues,
       text: years,
+      name: "Forecasted Temperature Change",
       //name: Object.values(firstSample).pop(), 
       line: {color: "red", width: 4},
       type: "line",
@@ -196,21 +197,115 @@ function buildCharts(sample) {
 
   // Create the layout for the linear regression chart.
   var linearLayout = {
-    title: {text: "<b>FORECASTED Annual Surface Temperature Change</b><br>Country:  " +  Object.values(firstSample).pop(), 
-    font: {color: "green", size: 30, family: "Arial"}}, showlegend: false, xaxis:{title:"Years"},  yaxis:{title: 'Baseline Climatology corresponding <br> to the period 1951-1980'}
+    legend: { x: 0.1,
+      y: 1,
+      traceorder: 'normal',
+      font: {
+        family: 'sans-serif',
+        size: 12,
+        color: '#000'
+      },
+      bgcolor: '#E2E2E2',
+      bordercolor: '#FFFFFF',
+      borderwidth: 2
+    },
+    title: {text: "<b>Annual Surface Temperature Change</b><br>Country:  " +  Object.values(firstSample).pop(), 
+    font: {color: "green", size: 30, family: "Arial"}}, xaxis:{title:"Years"},  yaxis:{title: 'Baseline Climatology corresponding <br> to the period 1951-1980'}
   };
   var scatterData = {
     x: xticks,
     y: year_value,
     text: years,
-    name: Object.values(firstSample).pop(),
+    name: Object.values(firstSample).pop() + " Temperature Change",
     marker: {color: "black", opacity: 0.6},
     type: "scatter",
     
   };
   //  Use Plotly to plot the data with the layout.
-  Plotly.newPlot("linReg", [linearData, scatterData], linearLayout);
+  Plotly.newPlot("bar", [scatterData, linearData], linearLayout);
   
 
   });
 };
+
+//Temperature Chart
+d3.json("global_temp.json").then((data) => {
+  var years = Object.keys(data.data)
+  console.log(years);
+  var data_values = Object.values(data.data);
+  var xticks = years;
+  var tempData = {
+      x: xticks,
+      y: data_values,
+      text: years,
+      name: "Global Temparature Change", 
+      marker: {color: "blue", opacity: 0.6},
+      type: "bar",
+      
+    };
+ 
+  var linearLayout = {
+    legend: { x: 0.1,
+      y: 1,
+      traceorder: 'normal',
+      font: {
+        family: 'sans-serif',
+        size: 12,
+        color: '#000'
+      },
+      bgcolor: '#E2E2E2',
+      bordercolor: '#FFFFFF',
+      borderwidth: 2
+    },
+    title: {text: "<b>Are Global Temperatures Rising?</b>", 
+    font: {color: "blue", size: 45, family: "Arial"}},  xaxis:{title:"Years"},  yaxis:{title: "Baseline Climatology corresponding <br> to the period 1951-1980"}
+  };
+
+  var yearSub = []
+  for (var i = 0; i < 70; i++) {
+      yearSub.push(1961);
+  }
+   
+  var xArray = [];
+  for(var i = 0; i<years.length; i++)
+      xArray.push(years[i] - yearSub[i]);
+  
+  var yArray = data_values;
+  //console.log(xArray)
+  // Calculate Sums
+  var xSum=0, ySum=0 , xxSum=0, xySum=0;
+  var count = xArray.length;
+  //console.log(count);
+  for (var i = 0, len = count; i < count; i++) {
+      xSum += xArray[i];
+      ySum += yArray[i];
+      xxSum += xArray[i] * xArray[i];
+      xySum += xArray[i] * yArray[i];
+  }
+  
+  // Calculate slope and intercept
+  var slope = (count * xySum - xSum * ySum) / (count * xxSum - xSum * xSum);
+  var intercept = (ySum / count) - (slope * xSum) / count;
+  
+  // Generate values
+  var xValues = [];
+  var yValues = [];
+  for (var x = 0; x < 70; x += 1) {
+      xValues.push(x+1961);
+      yValues.push(x * slope + intercept);
+  }
+
+// Create the trace for the linear regression chart.
+var linearData = {
+x: xValues,
+y: yValues,
+text: years,
+name: "Forecasted Temperature Change",
+//name: Object.values(firstSample).pop(), 
+line: {color: "red", width: 4},
+type: "line",
+
+};
+
+Plotly.newPlot("temp", [tempData, linearData], linearLayout);
+});
