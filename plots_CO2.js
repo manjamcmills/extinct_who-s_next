@@ -92,7 +92,7 @@ function buildMetadata(sample) {
         // Generate values
         var xValues = [];
         var yValues = [];
-        for (var x = 0; x <= 150; x += 1) {
+        for (var x = 0; x <= 90; x += 1) {
             xValues.push(x+1949);
             yValues.push(x * slope + intercept);
         }
@@ -188,6 +188,7 @@ function buildCharts(sample) {
       x: xValues,
       y: yValues,
       text: years,
+      name: "Forecasted Carbon Emissions",
       //name: Object.values(firstSample).pop(), 
       line: {color: "red", width: 4},
       type: "line",
@@ -196,21 +197,32 @@ function buildCharts(sample) {
 
   // Create the layout for the linear regression chart.
   var linearLayout = {
-    title: {text: "<b>FORECASTED Carbon Dioxide Emissions in " +  Object.values(firstSample).pop(), 
-    font: {color: "blue", size: 30, family: "Arial"}}, showlegend: false, xaxis:{title:"Years"},  yaxis:{title: 'Amount of CO2 emissions in Tons'}
+    legend: { x: 0.1,
+      y: 1,
+      traceorder: 'normal',
+      font: {
+        family: 'sans-serif',
+        size: 12,
+        color: '#000'
+      },
+      bgcolor: '#E2E2E2',
+      bordercolor: '#FFFFFF',
+      borderwidth: 2
+    },
+    title: {text: "<b>Annual Carbon Dioxide Emissions</b><br>Country:  " +  Object.values(firstSample).pop(),
+    font: {color: "blue", size: 30, family: "Arial"}},  xaxis:{title:"Years"},  yaxis:{title: 'Amount of CO2 emissions in Tons'}
   };
   var scatterData = {
     x: xticks,
     y: year_value,
     text: years,
-    mode: 'markers',
-    name: Object.values(firstSample),
-    marker: {color: "black", opacity: 0.6},
-    type: "scatter",
+    name: Object.values(firstSample).pop() + " Carbon Emissions",
+    marker: {color: "blue", opacity: 0.6},
+    type: "bar",
     
   };
   //  Use Plotly to plot the data with the layout.
-  Plotly.newPlot("linReg", [linearData, scatterData], linearLayout);
+  Plotly.newPlot("bar", [scatterData, linearData], linearLayout);
   
 
   });
@@ -228,14 +240,27 @@ d3.json("global_co2.json").then((data) => {
       x: xticks,
       y: data_values,
       text: years,
+      name: "Global Carbon Emissions",
       marker: {color: "orange", opacity: 0.6},
       type: "bar",
       
     };
  
   var CO2Layout = {
-    title: {text: "Are Carbon Emissions Increasing?", 
-    font: {color: "orange", size: 30, family: "Arial"}}, showlegend: false, xaxis:{title:"Years"},  yaxis:{title: "Global Temperatures Standard<br> Deviation from the Mean"}
+    legend: { x: 0.1,
+      y: 1,
+      traceorder: 'normal',
+      font: {
+        family: 'sans-serif',
+        size: 12,
+        color: '#000'
+      },
+      bgcolor: '#E2E2E2',
+      bordercolor: '#FFFFFF',
+      borderwidth: 2
+    },
+    title: {text: "<b>Are Global Carbon Emissions Increasing? </b>", 
+    font: {color: "orange", size: 40, family: "Arial"}}, xaxis:{title:"Years"},  yaxis:{title: "Amount of CO2 emissions in Tons"}
   };
 
   var yearSub = []
@@ -267,7 +292,7 @@ d3.json("global_co2.json").then((data) => {
   // Generate values
   var xValues = [];
   var yValues = [];
-  for (var x = 0; x < 80; x += 1) {
+  for (var x = 0; x < 90; x += 1) {
       xValues.push(x+1949);
       yValues.push(x * slope + intercept);
   }
@@ -277,11 +302,12 @@ var co2Data = {
 x: xValues,
 y: yValues,
 text: years,
+name: "Forecasted Carbon Emissions",
 //name: Object.values(firstSample).pop(), 
 line: {color: "red", width: 4},
 type: "line",
 
 };
 
-Plotly.newPlot("CO2", [co2Data, co2Reg], CO2Layout);
+Plotly.newPlot("CO2", [ co2Reg, co2Data], CO2Layout);
 });
