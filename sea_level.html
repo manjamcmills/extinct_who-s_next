@@ -14,13 +14,16 @@
     .yellow-div {
       padding:25px;
     }
+    .boxes {
+    white-space: nowrap👈
+}
   </style>
 </head>
 
 <body class="yellow-div">
   
   <div class="jumbotron text-center" style ="background-image: url(https://kundalinihouse.com.au/wp-content/uploads/2015/09/ocean-banner-400x123.jpg); background-size: 100%;">
-            <h1 style="color:purple;font-size:90px"><b>EXTINCT: WHO'S NEXT?" </b> </h1>
+            <h1 style="color:purple;font-size:90px"><b>EXTINCT: WHO'S NEXT?" </b> </h1> 
             <a href="index.html" style = "font-size: 25px; color:red " target = "_self" >
             <img src="home.jpg" width="30" class="img-fluid" alt="">
                  <b>Home</b></a>
@@ -50,21 +53,24 @@
             <b>Sea Level Data</b></a>
             </div>
             <div class="row">
-              <div class="col-md-9">
+              
+              <div class="col-md-9 col-lg-9 boxes " >
                 <div id="sea_level"></div>
             </div>
           
-            <div class="col-md-3">
+            <div class="col-md-3 col-lg-3 boxes">
+                
               <a href="https://education.nationalgeographic.org/resource/sea-level-rise" style = "font-size: 28px; color:purple" target = "_blank" >
                 <b>How does the rise of sea levels affect the world?</b></a><br><p style = "font-size: 25px; color:black" >Sea level rise poses a serious threat to coastal life around the world. Consequences include increased intensity of storm surges, flooding, and damage to coastal areas. In many cases, this is where large population centers are located, in addition to fragile wildlife habitats.</p>
-            </div>
+              
+              </div>
           </div>           
     <div class="row">
       <div class="col-md-3">
         <div class="well" style="background-color:red;"  >
           <h4><strong>Select an Ocean</strong></h4>
-          <!-- <select id="selDataset"></select> -->
-          <select id="selDataset" class="form-control" style = "font:size: 50" onchange="optionChanged(this.value)"></select>
+          <!-- <select id="selDataset"></select> --> 
+          <select id="selDataset" class="form-control" style = "font:size: 50" onchange="optionChanged(this.value)"></select> 
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading" style="background-color:orange;">
@@ -78,6 +84,7 @@
         </div>
       </div>
       <div class="col-md-9">
+        
         <div id="bar"></div>
       </div>
     </div>
@@ -88,7 +95,10 @@
       </div>
     </div>
   </div>
-
+  <img src="cosmo_sea..jpg" width="280" class="img-fluid" alt="">
+  <img src = 'coral_before.png' height="280" class="img-fluid" alt="">
+  <img src = 'coral_after.png' height="280" class="img-fluid" alt="">
+  <img src = 'flood.png' height="280" class="img-fluid" alt="">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="plots_sea_level.js"></script>
