@@ -7,7 +7,7 @@ function init() {
       // Object.entries(data.samples[0]).forEach(([key]) => {
       //   console.log(key)
       // });
-  
+
       var sampleNames = data.names;
       sampleNames.forEach((sample) => {
         selector
@@ -16,6 +16,8 @@ function init() {
           .property("value", sample)
           .attr('class','bold');
       });
+
+      console.log(sampleNames)
         // Use the first sample from the list to build the initial plots
       var firstSample = sampleNames[0];
       buildCharts(firstSample);
